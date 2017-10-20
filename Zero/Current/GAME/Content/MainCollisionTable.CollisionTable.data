@@ -1,0 +1,183 @@
+[Version:1]
+CollisionTable 
+{
+	var RegisteredGroups = Array
+	{
+		"5972222a997d10b0:Projectile"
+		"4e740859314e5515:DefaultGroup"
+		"590a575f7729f090:PlayerSpetialCase"
+		"59756d734d7f470f:playerBottomCollider"
+		"59754bda12d5d2dd:pillarTopCollider"
+		"59756aa124a32300:Water"
+		"5975498fa3f2ade2:player"
+	}
+	var CollisionFilters = Array
+	{
+		Object
+		{
+			var TypeA = "4e740859314e5515:DefaultGroup"
+			var TypeB = "5975498fa3f2ade2:player"
+			var SkipResolution = false
+			var SkipDetectingCollision = false
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "5975498fa3f2ade2:player"
+			var TypeB = "59756d734d7f470f:playerBottomCollider"
+			var SkipResolution = false
+			var SkipDetectingCollision = true
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "59754bda12d5d2dd:pillarTopCollider"
+			var TypeB = "5975498fa3f2ade2:player"
+			var SkipResolution = false
+			var SkipDetectingCollision = true
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "59754bda12d5d2dd:pillarTopCollider"
+			var TypeB = "59754bda12d5d2dd:pillarTopCollider"
+			var SkipResolution = false
+			var SkipDetectingCollision = true
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "59756aa124a32300:Water"
+			var TypeB = "59756aa124a32300:Water"
+			var SkipResolution = false
+			var SkipDetectingCollision = true
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "59756aa124a32300:Water"
+			var TypeB = "59754bda12d5d2dd:pillarTopCollider"
+			var SkipResolution = false
+			var SkipDetectingCollision = true
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "59756aa124a32300:Water"
+			var TypeB = "59756d734d7f470f:playerBottomCollider"
+			var SkipResolution = false
+			var SkipDetectingCollision = false
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "4e740859314e5515:DefaultGroup"
+			var TypeB = "59756aa124a32300:Water"
+			var SkipResolution = false
+			var SkipDetectingCollision = true
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "59756d734d7f470f:playerBottomCollider"
+			var TypeB = "59756d734d7f470f:playerBottomCollider"
+			var SkipResolution = false
+			var SkipDetectingCollision = true
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "5972222a997d10b0:Projectile"
+			var TypeB = "59756d734d7f470f:playerBottomCollider"
+			var SkipResolution = false
+			var SkipDetectingCollision = false
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "5972222a997d10b0:Projectile"
+			var TypeB = "59754bda12d5d2dd:pillarTopCollider"
+			var SkipResolution = false
+			var SkipDetectingCollision = false
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "5972222a997d10b0:Projectile"
+			var TypeB = "59756aa124a32300:Water"
+			var SkipResolution = false
+			var SkipDetectingCollision = true
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "4e740859314e5515:DefaultGroup"
+			var TypeB = "5972222a997d10b0:Projectile"
+			var SkipResolution = false
+			var SkipDetectingCollision = false
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "5972222a997d10b0:Projectile"
+			var TypeB = "5975498fa3f2ade2:player"
+			var SkipResolution = false
+			var SkipDetectingCollision = false
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+		Object
+		{
+			var TypeA = "590a575f7729f090:PlayerSpetialCase"
+			var TypeB = "59754bda12d5d2dd:pillarTopCollider"
+			var SkipResolution = false
+			var SkipDetectingCollision = true
+			var StartEvent = false
+			var EndEvent = false
+			var PersistedEvent = false
+			var PreSolveEvent = false
+		}
+	}
+	var AutoRegister = true
+}

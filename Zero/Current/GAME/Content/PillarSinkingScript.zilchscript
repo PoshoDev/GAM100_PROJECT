@@ -1,0 +1,24 @@
+/*This must have the whole pilar as parent!*/
+
+class PillarSinkingScript : ZilchComponent
+{
+  [Property]
+  var SinkingHeight: Real = 1; //Distance the pillar lowers each time its bounced on
+  
+  var InitialPosition: Real3 = Real3(0.0,0.0,0.0); //stores the initial height of the pillar
+  var BounceCounter: Integer = 0; //stores how many times the pillar has been bounced on
+  
+  function Initialize(init : CogInitializer)
+  {
+
+    this.InitialPosition = this.Owner.Parent.Transform.Translation; 
+  }
+
+  function SinkOneUnit() //makes the pillar sink one distance
+  {
+    this.BounceCounter += 1;
+    this.Owner.Parent.Transform.Translation = this.InitialPosition - Real3(0.0, this.BounceCounter*this.SinkingHeight, 0.0);
+  }
+  
+}
+

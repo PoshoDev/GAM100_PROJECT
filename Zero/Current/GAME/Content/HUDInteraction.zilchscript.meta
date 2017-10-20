@@ -1,0 +1,15 @@
+[Version:1]
+TextContent 
+{
+	ContentTags 
+	{
+		var Tags = Array
+		{
+		}
+	}
+	ZilchScriptBuilder 
+	{
+		var Name = "HUDInteraction"
+		var ResourceId = 0x593302ca702bd3b5
+	}
+}

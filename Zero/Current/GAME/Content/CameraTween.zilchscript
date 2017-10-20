@@ -1,0 +1,67 @@
+class CameraTween : ZilchComponent
+{
+  var ToX : Real = 0;
+  var ToY : Real = 0;
+  
+  var TweenSpeed : Real = 0;
+  
+  [Property] var TweenAdd   : Real = 0.0625;
+  [Property] var TweenMax   : Real = 1.0;
+  [Property] var TweenRange : Real = 1;
+  
+  function Initialize(init : CogInitializer)
+  {
+    this.GetX();
+    this.Owner.Transform.Translation.X = this.ToX;
+    
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    this.GetX();
+    var posX = this.Owner.Transform.Translation.X;
+    var posY = this.Owner.Transform.Translation.Y;
+    var posZ = this.Owner.Transform.Translation.Z;
+    
+    /*if (posX < this.ToX)
+      this.TweenSpeed += this.TweenAdd;
+    else if (posX > this.ToX)
+      this.TweenSpeed -= this.TweenAdd;
+      
+    if (this.TweenSpeed > this.TweenMax)
+      this.TweenSpeed = this.TweenMax;
+    if (this.TweenSpeed < -this.TweenMax)
+      this.TweenSpeed = -this.TweenMax;*/
+    
+    if ((posX <= this.ToX+this.TweenRange && posX >= this.ToX-this.TweenRange) && this.TweenSpeed != 0)
+      {
+        if (this.TweenSpeed < 0)
+          this.TweenSpeed += this.TweenAdd;
+        else
+          this.TweenSpeed -= this.TweenAdd;
+      }
+      
+    if (posX < this.ToX-this.TweenRange && this.TweenSpeed < this.TweenMax)
+      this.TweenSpeed += this.TweenAdd;
+    else if (posX > this.ToX+this.TweenRange && this.TweenSpeed > -this.TweenMax)
+      this.TweenSpeed -= this.TweenAdd;
+    
+      
+    this.Owner.Transform.Translation += Real3(this.TweenSpeed, 0, 0);
+  }
+  
+  function GetX()
+  {
+    var p1x = this.Space.FindObjectByName("Player1").Transform.Translation.X;
+    var p2x = this.Space.FindObjectByName("Player2").Transform.Translation.X;
+    
+    //if (p1x < p2x)
+      this.ToX = (p2x + p1x) / 2;
+    //else
+      //this.ToX = (p1x + p2x) / 2;
+    
+    //DEBUG  
+    //Console.WriteLine(this.ToX, this.TweenSpeed, this.Owner.Transform.Translation.X);
+  }
+}

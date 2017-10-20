@@ -1,0 +1,60 @@
+class SpetialCaseHandler : ZilchComponent
+{
+  [Property]
+  var PlayerBottomColliderCogPath: CogPath = null;
+  [Property]
+  var PlayerCogPath: CogPath = null;
+  var NormalCollisionGroupPlayer: CollisionGroup = null;
+  var NormalCollisionGroupPlayerBottom: CollisionGroup = null;
+  var SpetialCollisionGroup: CollisionGroup = null;
+  [Property]
+  var SpetialCaseTime : Real = 1.0;
+  var SpetialCaseTimer : Real = 0.0;
+  
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate); //Good ol' OnLogicUpdate
+    Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+    
+    this.NormalCollisionGroupPlayer = CollisionGroup.FindOrError("player");
+    this.NormalCollisionGroupPlayerBottom = CollisionGroup.FindOrError("playerBottomCollider");
+    this.SpetialCollisionGroup = CollisionGroup.FindOrError("PlayerSpetialCase");
+    
+    this.SpetialCaseTimer = this.SpetialCaseTime;
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    //Console.WriteLine(this.PlayerCogPath.Cog.BoxCollider.CollisionGroup.Name);
+    //Console.WriteLine(this.PlayerBottomColliderCogPath.Cog.BoxCollider.CollisionGroup.Name);
+    if (this.Owner.Parent.BoxCollider.CollisionGroup == this.SpetialCollisionGroup)
+    {
+      this.SpetialCaseTimer -= event.Dt;
+      if (this.SpetialCaseTimer < 0)
+      {
+        
+        Console.WriteLine("IN END OF Spetial");
+        
+        this.PlayerBottomColliderCogPath.Cog.BoxCollider.CollisionGroup = this.NormalCollisionGroupPlayerBottom;
+        this.PlayerCogPath.Cog.BoxCollider.CollisionGroup = this.NormalCollisionGroupPlayer;
+        this.SpetialCaseTimer = this.SpetialCaseTime;
+      }
+    }
+  }
+  
+  function OnCollisionStarted(event : CollisionEvent) //only using this function when bouncing with platforms is handled by the Collision Table (Space>PhisicsSpace)
+  {
+
+    if (event.OtherObject.Name == "pillarTopCollider") //because the rest of the pillar also collides with the player
+    {
+      if (!this.PlayerBottomColliderCogPath.Cog.PlayerBounce.Falling)
+      {
+        //Console.WriteLine("Detecting Spetial Case");
+        this.PlayerBottomColliderCogPath.Cog.BoxCollider.CollisionGroup = this.SpetialCollisionGroup;
+        this.PlayerCogPath.Cog.BoxCollider.CollisionGroup = this.SpetialCollisionGroup;
+
+      }
+    }
+  }
+  
+}

@@ -1,0 +1,12 @@
+BinaryContent = 
+{
+	BinaryBuilder = 
+	{
+		string Name = "Level3_TileMap02",
+		uint64 ResourceId = 594225fcd900b286,
+		string LoaderType = "TileMapSource",
+		uint Version = 0,
+		string FilterTag = "",
+		string ResourceOwner = "59e486106ab09940:Level3",
+	},
+},

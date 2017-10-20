@@ -1,0 +1,43 @@
+class GameLogic : ZilchComponent
+{
+  // Get the Levels to compare against:
+  // --Since the level resources already exist, it is
+  // --much more performant to grab and store a reference to them than
+  // --to keep asking the engine to Find it every LogicUpdate.
+  var Level1: Level = Level.Find("TitleScreen");
+  var Level2: Level = Level.Find("Level3");
+    var Level3: Level = Level.Find("WinScreen");
+      var Level4: Level = Level.Find("DeathScreen");
+    function Initialize(init : CogInitializer)
+    {
+        //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.LevelSettings, Events.MouseDown, this.OnMouseDown);
+        
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        
+    }
+    
+    function OnMouseDown(event : ViewportMouseEvent)
+    {
+        var currentLevelName = this.Space.CurrentLevel;
+        
+        if (currentLevelName == this.Level1)
+        {
+            Console.WriteLine(currentLevelName);
+            this.Space.LoadLevel(this.Level2);
+        }
+        if (currentLevelName == this.Level3)
+        {
+            Console.WriteLine(currentLevelName);
+            this.Space.LoadLevel(this.Level1);
+        }
+        if (currentLevelName == this.Level4)
+        {
+            Console.WriteLine(currentLevelName);
+            this.Space.LoadLevel(this.Level1);
+        }
+    }
+}

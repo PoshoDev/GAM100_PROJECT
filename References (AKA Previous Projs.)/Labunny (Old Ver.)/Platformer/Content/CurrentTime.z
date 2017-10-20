@@ -1,0 +1,18 @@
+class CurrentTime : ZilchComponent
+{
+    
+var CurrentTime : Real = 100;
+    function Initialize(init : CogInitializer)
+    {
+        //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+    if (this.CurrentTime >= 0.0)
+    {
+        this.CurrentTime -= event.Dt;
+        this.CurrentTime = Math.Round(this.CurrentTime, -2);
+    }
+    }
+}

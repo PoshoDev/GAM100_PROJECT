@@ -1,0 +1,41 @@
+class PlayerBounce : ZilchComponent
+{
+  /*This Script Defines how the players bounce on platforms*/
+  [Property]
+  var BounceVelocity : Real = 12;
+  var Falling : Boolean = false; //is true when player is falling
+  
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate); //Good ol' OnLogicUpdate
+    Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    //updating Falling
+    if (this.Owner.Parent.RigidBody.Velocity.Y < 0.5)
+    {
+      this.Falling = true;
+    }
+    else if (this.Owner.Parent.RigidBody.Velocity.Y > 0.5)
+    {
+      this.Falling = false;
+    }
+  }
+
+
+  function OnCollisionStarted(event : CollisionEvent) //only using this function when bouncing with platforms is handled by the Collision Table (Space>PhisicsSpace)
+  {
+
+    if (event.OtherObject.Name == "pillarTopCollider") //because the rest of the pillar also collides with the player
+    {
+      if (this.Falling)
+      {
+        event.OtherObject.PillarSinkingScript.SinkOneUnit();  //Sinking the pillar
+        this.Owner.Parent.RigidBody.Velocity = Real3(0,this.BounceVelocity,0); //Adding a positive Vy to player
+      }
+    }
+  }
+  
+}

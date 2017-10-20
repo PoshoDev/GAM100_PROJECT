@@ -1,0 +1,15 @@
+[Version:1]
+TextContent 
+{
+	ContentTags 
+	{
+		var Tags = Array
+		{
+		}
+	}
+	ZilchScriptBuilder 
+	{
+		var Name = "CameraDebug"
+		var ResourceId = 0x5930e1ecd3e0af4d
+	}
+}

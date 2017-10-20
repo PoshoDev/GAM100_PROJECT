@@ -1,0 +1,52 @@
+class KeboardInputs : ZilchComponent
+{
+  [Property]
+  var Enabled = false;
+  //to access the arm object
+  [Property]
+  var ArmCogPath: CogPath;
+  
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    Zero.Connect(this.LevelSettings, Events.MouseUpdate, this.OnMouseUpdate);
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    if (this.Enabled)
+    {
+      var movement = Real3(0.0,0.0,0.0);
+      
+      if (Zero.Keyboard.KeyIsDown(Keys.D))
+      {
+        movement.X += this.Owner.PlayerInput.Deadzone_Max;
+      }
+      if (Zero.Keyboard.KeyIsDown(Keys.A))
+      {
+        movement.X -= this.Owner.PlayerInput.Deadzone_Max;
+      }
+      
+      this.Owner.Transform.Translation += movement*event.Dt*12; //<---MAGIC NUMBER TO BE REMOVED!! (when controller movement also uses event.Dt)
+    }
+      
+  }
+  
+  /*the following function is not working for some reason*/
+  function OnMouseUpdate(event : ViewportMouseEvent)
+  {
+    Console.WriteLine("IN MOUSE");
+    if (this.Enabled)
+    {
+      var mousePosition = event.ToWorldZPlane(0.0);
+      var playerPosition = this.Owner.Transform.WorldTranslation;
+      
+      var vectorToMouse = mousePosition - playerPosition;
+
+      var mouseAngle = Math.ATan2(vectorToMouse.Y, vectorToMouse.X);
+      
+      this.ArmCogPath.Cog.Transform.SetEulerAnglesXYZ(0.0, 0.0, mouseAngle);
+    }
+  }
+  
+}

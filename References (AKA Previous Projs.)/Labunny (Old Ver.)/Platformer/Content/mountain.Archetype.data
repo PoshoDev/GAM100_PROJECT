@@ -1,0 +1,61 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "Mountain",
+	},
+	Archetyped = 
+	{
+		string Name = "59e0fcf3a5e4095b:mountain",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [6.33738852, -10.938508, -10],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	MultiSprite = 
+	{
+		bool Visible = true,
+		bool VisibilityCulling = true,
+		bool VisibilityEvents = true,
+		bool CastShadows = false,
+		Vec4 Color = [1, 1, 1, 1],
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+	},
+	TileMap = 
+	{
+		string SourceName = "591626a416a2fac5:Level_TileMap04",
+		string PaletteName = "59e0f38787511472:GrassBox",
+		float UnitsPerTile = 1,
+		float MeshThickness = 1.20000005,
+	},
+	ParallaxBackground = 
+	{
+		int RepeatLength = 5,
+		int LayerWidth = 14,
+		bool Original = true,
+		float RelativeSpeed = 0.5,
+		CogPath PlayerObject = 
+		{
+			string Path = ":/Player",
+			bool ErrorOnResolveToNull = false,
+			bool ErrorOnPathCantCompute = false,
+			bool ErrorOnDirectLinkFail = false,
+			bool UpdateCogOnPathChange = true,
+			bool UpdatePathOnCogChange = true,
+			bool UpdateCogOnInitialize = true,
+			bool ResolvedNullErrorOccurred = false,
+			uint ResolvedCog = 2,
+			CogPathPreference PathPreference0 = CogRelative,
+			CogPathPreference PathPreference1 = SpaceRelative,
+			CogPathPreference PathPreference2 = Absolute,
+		},
+	},
+},

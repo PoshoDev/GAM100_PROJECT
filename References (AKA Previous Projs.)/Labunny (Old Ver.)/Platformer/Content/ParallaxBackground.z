@@ -1,0 +1,65 @@
+class ParallaxBackground : ZilchComponent
+{
+    
+    [Property]
+var RepeatLength : Integer = 5;
+
+[Property]
+var LayerWidth : Integer = 14;
+
+[Property]
+var Original : Boolean = false;
+
+var MyArchetype : Archetype = null;
+  [Property]
+  var RelativeSpeed : Real = 0.5;
+
+  [Property]
+  var PlayerObject : CogPath = null;
+
+  var PreviousPlayerPosition : Real3 = Real3(0,0,0);
+
+function Initialize(init : CogInitializer)
+{
+    /*
+  //Initialize the player's starting position
+  this.PreviousPlayerPosition = this.PlayerObject.Cog.Transform.Translation;
+
+  //Initialize the archetype variable so we know what to create
+  this.MyArchetype = Archetype.Find(this.Owner.ArchetypeName);
+
+  //Only create duplicates if this object is the original
+  if(this.Original)
+  {
+    //Create "RepeatLength" copies in a repeating pattern
+    for(var i = 0; i < this.RepeatLength; ++i)
+    {
+      var leftDisplacement = Real3(this.LayerWidth * this.Owner.TileMap.UnitsPerTile * -i,0,0);
+      var objLeftPosition = this.Owner.Transform.Translation + leftDisplacement;
+      this.Space.CreateAtPosition(this.MyArchetype, objLeftPosition);
+
+
+      var rightDisplacement = Real3(this.LayerWidth * this.Owner.TileMap.UnitsPerTile * i,0,0);
+      var objRightPosition = this.Owner.Transform.Translation + rightDisplacement;
+      this.Space.CreateAtPosition(this.MyArchetype, objRightPosition);
+    }
+  }
+*/
+  Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+
+}
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    var currentPlayerPosition = this.PlayerObject.Cog.Transform.Translation;
+    var displacement = currentPlayerPosition.X - this.PreviousPlayerPosition.X;
+    var movement = displacement * this.RelativeSpeed;
+    var newPosition = this.Owner.Transform.Translation;
+    newPosition.X -= movement;
+    this.Owner.Transform.Translation = newPosition;
+
+    this.PreviousPlayerPosition = currentPlayerPosition;
+  }
+  
+  
+}

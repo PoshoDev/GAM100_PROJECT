@@ -1,0 +1,26 @@
+class HudInteraction : ZilchComponent
+{
+    // Everytime you create an object on the HUD declare it like so:
+    var HudSprite : Cog;
+    var TestText : Cog;
+    
+    
+    
+    
+    [Dependency]
+    var HudCreator: HUDCreator;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        // Then add the object here like this so it links it:
+        this.HudSprite = this.Owner.HUDCreator.HudSpace.FindObjectByName("HudSprite");
+        this.TestText = this.Owner.HUDCreator.HudSpace.FindObjectByName("TestText");
+        
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+      
+    }
+}

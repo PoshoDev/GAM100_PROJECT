@@ -1,0 +1,54 @@
+class ShakeDat : ZilchComponent
+{
+    var ShakeTrue : Boolean = false;
+    var Shake: Integer = 0;
+    var RandomGenerator : Random = Random();
+    var Dir_X: Real = 0;
+    var Dir_Y: Real = 0;
+    var Org_X: Real = 0;
+    var Org_Y: Real = 0;
+    
+    var TimeToStop : Real = 0;                      //meme
+    
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        
+            /*if(this.ShakeTrue == true)
+            {
+                this.Shake = 5;
+                this.Org_X = this.Owner.Transform.Translation.X;
+                this.Org_Y = this.Owner.Transform.Translation.Y;*/
+                
+                
+                    if (this.Shake > 0)
+                    {
+                        this.Dir_X = this.RandomGenerator.Range(-this.Shake, this.Shake);
+                        this.Dir_Y = this.RandomGenerator.Range(-this.Shake, this.Shake);
+                    
+                        this.Owner.Transform.Translation = Real3(this.Org_X+this.Dir_X, this.Org_Y+this.Dir_Y, 40.0);
+                    
+                        this.Shake -= 1;
+                    
+                        if (this.Shake <= 0)
+                        {
+                            this.Owner.Transform.Translation = Real3(this.Org_X, this.Org_Y, 40.0);
+                        }
+                    }
+                    /*this.TimeToStop += event.Dt;
+                
+            }
+        
+        this.TimeToStop = 0;*/
+        
+    }
+        
+        
+        
+
+}

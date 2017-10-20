@@ -1,0 +1,41 @@
+class PlayerAnimation : ZilchComponent
+{
+[Property]
+var PlayerStand : SpriteSource = null;
+
+[Property]
+var PlayerWalk : SpriteSource = null;
+
+[Property]
+var PlayerJump : SpriteSource = null;
+
+[Property]
+var PlayerFall : SpriteSource = null;
+
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+      
+    if (this.Owner.RigidBody.Velocity.Y < 0)
+    {
+        this.Owner.Sprite.SpriteSource = this.PlayerFall;
+    }
+    else if (this.Owner.RigidBody.Velocity.Y > 0)
+    {
+        this.Owner.Sprite.SpriteSource = this.PlayerJump;
+    }
+    else if (this.Owner.RigidBody.Velocity.X != 0 && this.Owner.Sprite.SpriteSource != this.PlayerWalk)
+    {
+        this.Owner.Sprite.SpriteSource = this.PlayerWalk;
+    }
+    else if (this.Owner.RigidBody.Velocity.X == 0 && this.Owner.Sprite.SpriteSource != this.PlayerStand)
+    {
+        this.Owner.Sprite.SpriteSource = this.PlayerStand;
+    }
+    
+  }
+}

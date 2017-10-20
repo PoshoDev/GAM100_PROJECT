@@ -1,0 +1,9 @@
+[Version:1]
+TextContent 
+{
+	ZilchScriptBuilder 
+	{
+		var Name = "P2Character"
+		var ResourceId = 0x5930ffe173cfec9c
+	}
+}

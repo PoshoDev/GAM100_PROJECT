@@ -1,0 +1,12 @@
+[Version:1]
+DataContent 
+{
+	DataBuilder 
+	{
+		var Name = "Level.Level (James A.'s conflicted copy 2017-10-09)"
+		var ResourceId = 0x590146d1b7570171
+		var LoaderType = "Level"
+		var Version = 0
+		var ShowInEditor = true
+	}
+}

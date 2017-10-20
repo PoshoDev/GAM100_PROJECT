@@ -1,0 +1,37 @@
+class AirDash : ZilchComponent
+{
+  var Controller : Gamepad = null; //Creates Gamepad, I guess
+  ///Which controller ///
+  [Property] var ControllerN: Integer = 0;
+  
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate); //Good ol' OnLogicUpdate
+
+    
+    this.Controller = Zero.Gamepads.GetGamePad(this.ControllerN);  //Assigns the FIRST Gamepad
+    Zero.Connect(this.Controller, Events.ButtonDown, this.OnButtonDown);  //Button Pressed Event
+    
+    Console.Write(Zero.Gamepads.GetGamePad(this.ControllerN));
+    Console.WriteLine(" conected");
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+  }
+
+  function OnButtonDown(event : GamepadEvent) //Button Pressed List
+  {
+    if (event.Button == Buttons.A)
+    {
+       Console.WriteLine("A Pressed.");
+
+    }
+
+    /*if (event.Button == Buttons.)
+    {
+      Console.WriteLine("Left Pressed.");
+
+    }*/
+  }
+}

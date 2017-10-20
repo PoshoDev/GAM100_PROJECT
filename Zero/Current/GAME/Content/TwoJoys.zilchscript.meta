@@ -1,0 +1,15 @@
+[Version:1]
+TextContent 
+{
+	ContentTags 
+	{
+		var Tags = Array
+		{
+		}
+	}
+	ZilchScriptBuilder 
+	{
+		var Name = "TwoJoys"
+		var ResourceId = 0x590636ebc6c4dc72
+	}
+}

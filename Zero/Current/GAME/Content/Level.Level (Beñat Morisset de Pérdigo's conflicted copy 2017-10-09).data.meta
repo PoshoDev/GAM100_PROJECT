@@ -1,0 +1,12 @@
+[Version:1]
+DataContent 
+{
+	DataBuilder 
+	{
+		var Name = "Level.Level (Beñat Morisset de Pérdigo's conflicted copy 2017-10-09)"
+		var ResourceId = 0x59756c7b7f81efbb
+		var LoaderType = "Level"
+		var Version = 0
+		var ShowInEditor = true
+	}
+}

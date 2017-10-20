@@ -1,0 +1,21 @@
+class P2Character : ZilchComponent
+{
+  [Property]
+  var PlayerPath : CogPath = null;
+  var Player : Cog = null;
+  
+  var Selected : Boolean;
+  
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    this.Player = this.PlayerPath.Cog;
+    
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    this.Selected = this.Player.MenuLogic2.Locked;
+    this.Owner.SpriteText.Text = this.Player.MenuLogic2.P2Selected;
+  }
+}

@@ -1,0 +1,40 @@
+class FistScript : ZilchComponent
+{
+  
+  [Property]
+  var MaxDist: Real = 10;
+  [Property]
+  var DespawnTime: Real = 0.25;
+  var NextDespawn: Real = 0.0;
+  
+  var InitialPos: Real3 = Real3(0.0,0.0,0.0); //Stores spawning position of the projectile
+  var MaxDist2: Real = 0;   //Stores MaxDist squared
+  
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    
+    this.InitialPos = this.Owner.Transform.Translation; //Storing spawningn position of the projectile
+    this.MaxDist2 = this.MaxDist*this.MaxDist; //Storing MaxDist squared
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    var distX = this.Owner.Transform.Translation.X - this.InitialPos.X;
+    var distY = this.Owner.Transform.Translation.Y - this.InitialPos.Y;
+    var dist2 = distX*distX + distY*distY;
+    
+    if (dist2 >= this.MaxDist2)
+    {
+      this.Owner.Destroy();
+    }
+    
+    this.NextDespawn += event.Dt;
+    
+    if (this.DespawnTime < this.NextDespawn)
+    {
+      this.Owner.Destroy();
+    } 
+    
+  }
+}

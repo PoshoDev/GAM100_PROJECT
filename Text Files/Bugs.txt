@@ -1,0 +1,3 @@
+Fist isnt detected when the player tries to punch from the positive x ONLY when they have the same or similar y coordinate
+
+Fist doesent return to the player and remains stretched

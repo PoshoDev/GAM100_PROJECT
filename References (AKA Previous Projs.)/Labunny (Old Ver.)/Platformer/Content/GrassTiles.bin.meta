@@ -1,0 +1,19 @@
+BinaryContent = 
+{
+	BinaryBuilder = 
+	{
+		string Name = "GrassTiles",
+		uint64 ResourceId = 5310fcee298906fc,
+		string LoaderType = "TilePaletteSource",
+		uint Version = 0,
+		string FilterTag = "",
+		string ResourceOwner = "",
+	},
+	ContentTags = 
+	{
+		Array Tags = 
+		[
+			"GrassTiles",
+		],
+	},
+},

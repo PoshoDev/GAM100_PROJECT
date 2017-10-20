@@ -1,0 +1,8 @@
+class GlobalVariables : ZilchComponent
+{
+  
+  var Score : Integer=0;
+  
+  //TO ACCESS GLOBALVARIABLES FROM OTHER SCRIPTS:
+  //this.GameSession.GlobalVariables.Score;
+}

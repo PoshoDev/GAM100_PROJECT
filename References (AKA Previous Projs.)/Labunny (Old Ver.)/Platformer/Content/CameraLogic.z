@@ -1,0 +1,27 @@
+class CameraLogic : ZilchComponent
+  {
+    [Property]
+    var TargetObjectCogPath : CogPath = null;
+
+    var TargetObject : Cog = null;
+
+
+    function Initialize(init : CogInitializer)
+    {
+      this.TargetObject = this.TargetObjectCogPath.Cog;
+      Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        // create a new variable to hold the player's position
+        var newCameraPos = this.TargetObject.Transform.LocalTranslation;
+        // save the camera's z value
+        newCameraPos.Z = this.Owner.Transform.LocalTranslation.Z;
+        // set the camera's new position to newCameraPos
+        newCameraPos.Y = this.TargetObject.Transform.LocalTranslation.Y + 3;
+        
+        //this.Owner.Transform.LocalTranslation = newCameraPos;
+    }
+  }

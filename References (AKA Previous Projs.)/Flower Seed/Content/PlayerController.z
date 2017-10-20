@@ -1,0 +1,102 @@
+class PlayerController : ZilchComponent
+{
+    // Variables trakcing player state
+    // Movement
+    var MoveLeft : Boolean = false;
+    var MoveRight: Boolean = false;
+    var MoveUp   : Boolean = false;
+    var MoveDown : Boolean = false;
+    var MoveSpeed: Real    = 10.0;
+    
+    var AimPos   : Cog     = null;
+    var Dir      : Real    = -1;
+    var Dead     : Boolean = false;
+
+    [Dependency]
+    var Transform: Transform = null;
+
+    function Initialize(init : CogInitializer)
+        {
+        // We will update the player every logic update
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        }
+
+    function OnLogicUpdate(event : UpdateEvent)
+        {
+        // Get all input from the Player Here
+        this.UpdatePlayerInput();
+        // Apply Logic for player movement
+        this.ApplyMovement(event);
+        
+    
+        /*function OnMouseDown(event : ViewportMouseEvent)*/
+        if (Zero.Keyboard.KeyIsDown(Keys.Space) && this.Dead == false)
+            {
+            var projectileObject = this.Space.CreateAtPosition(Archetype.Find("Bullet"), this.Owner.Transform.Translation+Real3(2*this.Dir,0.8,0));
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("Fly Gardener0001");
+            }
+        else
+            {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("Fly Gardener0002");
+            }
+        }
+        
+    function UpdatePlayerInput()
+        {
+        // Set flags marking player movement
+        this.MoveLeft  =    Zero.Keyboard.KeyIsDown(Keys.A);
+        this.MoveRight =    Zero.Keyboard.KeyIsDown(Keys.D);
+        this.MoveUp =       Zero.Keyboard.KeyIsDown(Keys.W);
+        this.MoveDown =     Zero.Keyboard.KeyIsDown(Keys.S);
+        }
+        
+
+    function ApplyMovement(event: UpdateEvent)
+        {
+        var moveDirection = Real3(0.0, 0.0, 0.0);
+        if (this.Dead == false){
+        // Apply movement based on player input
+        if (this.MoveLeft && this.Owner.Transform.Translation.X > -18)
+            {
+            moveDirection += Real3(-1.0, 0.0, 0.0);
+            this.Dir = -1;
+            this.Owner.Sprite.FlipX = false;
+            }
+        if (this.MoveRight && this.Owner.Transform.Translation.X < 18)
+            {
+            moveDirection += Real3(1.0, 0.0, 0.0);
+            this.Dir = 1;
+            this.Owner.Sprite.FlipX = true;
+            }
+        if (this.MoveUp && this.Owner.Transform.Translation.Y < 9)
+            {
+            moveDirection += Real3(0.0, 1.0, 0.0);
+            }
+        if (this.MoveDown && this.Owner.Transform.Translation.Y > -8)
+            {
+            moveDirection += Real3(0.0, -1.0, 0.0);
+            }
+        }
+
+        // Only want the direction, do not want it to affect speed.
+        moveDirection = Math.Normalize(moveDirection);
+        
+        this.Owner.RigidBody.Velocity = Real3(0,0,0);
+        
+        // Apply Movement
+        this.Owner.Transform.Translation += moveDirection * event.Dt * this.MoveSpeed;
+
+    }
+    
+    function OnCollisionStarted(event: CollisionEvent)
+        {
+        if (event.OtherObject.Name == "Enemy")
+            {
+            this.Dead = true;
+            this.Owner.RigidBody.Static = true;
+            this.Owner.Sprite.Visible = false;
+            //this.Owner.Destroy();
+            }
+        }
+}

@@ -1,0 +1,109 @@
+class MouseLook : ZilchComponent
+{
+  [Dependency]
+  var Transform : Transform;
+  
+  [Property]
+  var PlayerOp : Real;
+  var PointerAngle : Real;
+  
+  var PointerAngleDeg : Real;
+  
+  var Locked : Boolean=false;
+  
+  var PI: Real= 3.14159265359;
+  
+  //The player path for its character
+  [Property]
+  var PlayerPath : CogPath = null;
+  var Player : Cog = null;
+  
+  //var GamePlay: Level = Level.Find("Game");
+  
+  var Builder = new StringBuilder();
+  
+  var RandomGenerator : Random = Random();
+
+
+  
+  var P1Selected : String = ("P1 : ");
+  
+  
+  function Initialize(init : CogInitializer){
+    Console.WriteLine("CORRREEE");
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    
+    Zero.Connect(this.Space, Events.MouseMove, this.OnMouseMove);
+    
+    Zero.Connect(this.Space, Events.MouseDown, this.OnMouseDown);
+    
+    this.Player = this.PlayerPath.Cog;
+  }
+  
+  function OnMouseMove(event : ViewportMouseEvent)
+    {
+      var mouseWorldPosition = event.ToWorldZPlane(0);
+      var pointerAngleRad = Math.ATan2(mouseWorldPosition.Y, mouseWorldPosition.X);
+      
+      this.PointerAngle = this.PI+pointerAngleRad;
+      
+      this.PointerAngleDeg = Math.ToDegrees(pointerAngleRad);
+      
+      Console.WriteLine(this.PointerAngleDeg);
+      
+      var pointerPosition = this.Transform.WorldTranslation;
+    
+      var vectorToMouse = mouseWorldPosition - pointerPosition;
+    
+      var mouseAngle = Math.ATan2(vectorToMouse.Y, vectorToMouse.X);
+      if(this.Locked == false){
+        this.Transform.SetEulerAnglesXYZ(0.0, 0.0, this.PointerAngle);
+        
+      }
+    }
+
+  function OnLogicUpdate(event : UpdateEvent){
+    var section : Real = 0;
+    
+    section = this.PointerAngleDeg;
+    if(this.Locked == false){
+      if(section > 54 && section <126){
+        this.PlayerOp = 1;
+        this.P1Selected = ("P1 : Random");
+      }
+      if((section > 126 && section <180) || (section > -179 && section < -162)){
+        this.PlayerOp = 2;
+        this.P1Selected = ("P1 : Mage");
+      }
+      if(section > -162 && section <-90){
+        this.PlayerOp = 3;
+        this.P1Selected = ("P1 : Cindy");
+      }
+      if(section > -90 && section <-18){
+        this.PlayerOp = 4;
+        this.P1Selected = ("P1 : Toon");
+      }
+      if((section > -18 && section <0) || (section < 54 && section > 0) ){
+        this.PlayerOp = 5;
+        this.P1Selected = ("P1 : Bork");
+      }
+    }
+    if (this.Locked == true){
+      if(Zero.Keyboard.KeyIsDown(Keys.Enter)){
+        Console.WriteLine("aplastado");
+        //this.Space.LoadLevel(this.GamePlay);
+      }
+    }
+  }
+  
+  function OnMouseDown (event : ViewportMouseEvent){
+    
+    Console.WriteLine(this.PlayerOp);
+    this.Locked = true;
+  }
+  function RandomCharacter (){
+    if(this.PlayerOp == 1 && this.Locked == true){
+      Console.WriteLine(this.RandomGenerator.DieRoll(5)); 
+    }
+  }
+}

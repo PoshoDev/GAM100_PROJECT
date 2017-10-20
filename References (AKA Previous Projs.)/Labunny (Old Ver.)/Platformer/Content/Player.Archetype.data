@@ -1,0 +1,97 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "Player",
+	},
+	Archetyped = 
+	{
+		string Name = "5914bc96d27ddb4e:Player",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [3.32257414, -2.6105051, 0],
+		Vec3 Scale = [0.236287847, 0.236287847, 0.236287847],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		bool Visible = true,
+		bool VisibilityCulling = true,
+		bool VisibilityEvents = true,
+		bool CastShadows = false,
+		Vec4 Color = [1, 1, 1, 1],
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+		string SpriteSource = "59148df9a08f2c62:Bunny0001",
+		bool RenderMask = false,
+		bool FlipX = false,
+		bool FlipY = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+	},
+	BoxCollider = 
+	{
+		bool Ghost = false,
+		bool SendsMessages = true,
+		bool Seamless = true,
+		string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+		string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+		Vec3 Offset = [0, -2, 0],
+		Vec3 Size = [2.5, 2.5, 0.5],
+	},
+	PlayerController = 
+	{
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = true,
+		bool RotationLocked = false,
+		bool Mode2D = true,
+		bool AllowSleep = true,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [207.660873, -192.692535, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	SweptController = 
+	{
+		Vec3 WorldUp = [0, 1, 0],
+		bool LockZAxis = false,
+		bool ForwardEvents = true,
+		float Gravity = 10,
+		float JumpSpeed = 10,
+		float JumpCancelFactor = 0.5,
+		float MaxMoveSpeed = 10,
+		float MaxFallSpeed = 50,
+		float GroundAcceleration = 50,
+		float AirAcceleration = 10,
+		float GroundDeceleration = 50,
+		float AirDeceleration = 10,
+		float MaxGroundSlope = 45,
+		float MaxCeilingSlope = 45,
+		float GroundSnapDistance = 0.100000001,
+		Vec3 ControllerVelocity = [0, 0, 0],
+		bool Grounded = true,
+		bool Jumping = false,
+		float GroundTraction = 1,
+		float AirTraction = 1,
+	},
+	PlayerAnimation = 
+	{
+		string PlayerStand = "59148df9a08f2c62:Bunny0001",
+		string PlayerWalk = "59148c23b0a5b11d:Bunny_Run_1",
+		string PlayerJump = "59e4a2fcf2895fb6:Bunny0004",
+		string PlayerFall = "59e4ac4f746d015f:Bunny0005",
+	},
+	Hierarchy = 
+	{
+	},
+},

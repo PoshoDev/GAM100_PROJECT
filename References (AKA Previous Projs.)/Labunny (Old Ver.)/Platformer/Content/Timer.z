@@ -1,0 +1,27 @@
+/*class Timer : ZilchComponent
+{
+      [Property]
+    var TimerPath : CogPath = null;
+
+    [Property]
+    var TimeTextOffset : Real3 = Real3();
+
+    function Initialize(init : CogInitializer)
+    {
+    //Offsets the Health SpriteText according to the value set in the Property above
+    this.TimerPath.Cog.Transform.Translation += this.TimeTextOffset;
+        //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+
+    }
+    
+      function TimeText(health : Real)
+  {
+    //Update the Health SpriteText text property with the current player health
+    this.TimerPath.Cog.SpriteText.Text = "Time: `Time`";
+  }
+}
+*/

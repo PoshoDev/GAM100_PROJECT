@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "ShakeDat",
+		uint64 ResourceId = 590973ed09d729f7,
+	},
+},

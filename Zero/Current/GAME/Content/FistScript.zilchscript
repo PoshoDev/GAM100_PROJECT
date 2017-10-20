@@ -1,0 +1,110 @@
+/*this script manages how the fist behaves*/
+
+
+class FistScript : ZilchComponent
+{
+  [Property]
+  var MaxDist: Real = 10.0; //max distance between the player and the fist
+  
+  [Property] var V: Real = 0.0; //V = Fist Velocity
+  [Property] var FistForce: Real = 10.0; //alreday normalized
+
+  
+  var BumpDirection:Real3 = Real3(0.0,0.0,0.0);
+  
+  
+  var InitialPos: Real3 = Real3(0.0,0.0,0.0); //Stores spawning position of the projectile
+  var MaxDist2: Real = 0;   //Stores MaxDist squared
+  
+  var Time: Real = 0.0;
+  
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+    Zero.Connect(this.Owner, Events.CollisionPersisted, this.OnCollisionPersisted);
+    
+    this.MaxDist2 = this.MaxDist*this.MaxDist; //Storing MaxDist squared
+    this.InitialPos = this.Owner.Transform.Translation; //Storing inital position
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    this.Time += event.Dt; //updating time
+    var playerPos = this.Owner.Parent.Parent.Transform.Translation; //storing current player position
+    //calculating dist2
+    var distX = this.Owner.Transform.WorldTranslation.X - playerPos.X;
+    var distY = this.Owner.Transform.WorldTranslation.Y - playerPos.Y;
+    var dist2 = distX*distX + distY*distY;
+    //calculating current position of the fist
+    this.Owner.Transform.Translation = this.InitialPos + Real3(this.V, 0.0, 0.0)*this.Time;
+    
+    if (dist2 >= this.MaxDist2)
+    {
+      this.ResetFistState();
+    }
+    
+  }
+  
+  function ResetFistState()
+  {
+    this.V=0;
+    this.Owner.Transform.Translation = this.InitialPos;
+    this.Owner.Parent.Parent.PlayerInput.AimingEnabled = true;
+    this.Owner.Parent.ShootFist.Fisting = false;
+    this.Owner.Parent.ShootFist.InAftermath = true;
+  }
+  
+  function OnCollisionStarted(event : CollisionEvent)
+  {
+    var otherobject = event.OtherObject;
+    if (otherobject.Archetype == Archetype.FindOrError("Player") && this.Owner.Parent.ShootFist.Fisting == true)
+    {
+      //Console.WriteLine("Fisted oponent");
+      otherobject.PlayerInput.BumpVector = this.FistForce*this.BumpDirection;
+      Console.Write("FistBump: ");
+      Console.WriteLine(this.FistForce*this.BumpDirection);
+      this.ResetFistState();
+    }
+    if (otherobject.Name == "playerBottomCollider" && this.Owner.Parent.ShootFist.Fisting == true)
+    {
+      //Console.WriteLine("Fisted oponent");
+      otherobject.Parent.PlayerInput.BumpVector = this.FistForce*this.BumpDirection;
+      Console.Write("FistBump: ");
+      Console.WriteLine(this.FistForce*this.BumpDirection);
+      this.ResetFistState();
+    }
+    if ((otherobject.Name == "pillarTopCollider" || otherobject.Name == "pillarBottomCollider") && this.Owner.Parent.ShootFist.Fisting == true)
+    {
+      this.ResetFistState();
+    }
+    
+  }
+  
+  function OnCollisionPersisted(event : CollisionEvent)
+  {
+        var otherobject = event.OtherObject;
+    if (otherobject.Archetype == Archetype.FindOrError("Player") && this.Owner.Parent.ShootFist.Fisting == true)
+    {
+      //Console.WriteLine("Fisted oponent");
+      otherobject.PlayerInput.BumpVector = this.FistForce*this.BumpDirection;
+      Console.Write("FistBump: ");
+      Console.WriteLine(this.FistForce*this.BumpDirection);
+      this.ResetFistState();
+    }
+    if (otherobject.Name == "playerBottomCollider" && this.Owner.Parent.ShootFist.Fisting == true)
+    {
+      //Console.WriteLine("Fisted oponent");
+      otherobject.Parent.PlayerInput.BumpVector = this.FistForce*this.BumpDirection;
+      Console.Write("FistBump: ");
+      Console.WriteLine(this.FistForce*this.BumpDirection);
+      this.ResetFistState();
+    }
+    if ((otherobject.Name == "pillarTopCollider" || otherobject.Name == "pillarBottomCollider") && this.Owner.Parent.ShootFist.Fisting == true)
+    {
+      this.ResetFistState();
+    }
+  }
+  
+  
+}

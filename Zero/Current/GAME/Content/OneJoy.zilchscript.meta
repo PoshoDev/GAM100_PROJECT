@@ -1,0 +1,15 @@
+[Version:1]
+TextContent 
+{
+	ContentTags 
+	{
+		var Tags = Array
+		{
+		}
+	}
+	ZilchScriptBuilder 
+	{
+		var Name = "OneJoy"
+		var ResourceId = 0x5957e9bf7baa0d52
+	}
+}

@@ -1,0 +1,20 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "whaddup",
+		uint64 ResourceId = 59e4a224135e5819,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 500,
+		uint FrameSizeY = 640,
+		uint FrameCount = 2,
+		float FrameDelay = 0.0833333358,
+		float OriginX = 250,
+		float OriginY = 320,
+		float PixelsPerUnit = 500,
+		bool Smoothing = false,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+		SpriteFill Fill = Stretch,
+	},
+},

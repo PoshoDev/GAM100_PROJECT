@@ -1,0 +1,15 @@
+[Version:1]
+TextContent 
+{
+	ContentTags 
+	{
+		var Tags = Array
+		{
+		}
+	}
+	ZilchScriptBuilder 
+	{
+		var Name = "PlayerBounce"
+		var ResourceId = 0x59754063c1bcafbb
+	}
+}

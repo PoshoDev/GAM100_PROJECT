@@ -1,0 +1,82 @@
+class ShootFist : ZilchComponent
+{
+
+  ///Which controller ///
+  [Property] var ControllerN: Integer = 0;
+  
+  [Property] var FistCogPath: CogPath = null;
+  
+  [Property]
+  var FistSpeed: Real = 1.0;
+  [Property]
+  var Range: Real = 1.0;
+  [Property]
+  var FistCooldownTime: Real = 0.25;  //Cooldown time AFTER the fist has returned, during this time InAftermath = true
+  var ShootTimer: Real = 0.0;         //used with FistCooldownTime to impose cooldown
+  var Fisting: Boolean = false;       //Is the player punching right now?
+  var InAftermath: Boolean = false;   //InAftermath = true during the FistCooldownTime (just after fist has returned)
+
+  
+  var Controller : Gamepad = null;  //Creates Gamepad, I guess
+  
+  function Initialize(init : CogInitializer)
+  {
+    
+    this.Controller = Zero.Gamepads.GetGamePad(this.ControllerN);  //Assigns the FIRST Gamepad
+    Console.Write(Zero.Gamepads.GetGamePad(this.ControllerN));
+    Console.WriteLine(" connected!");
+    
+    
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    Zero.Connect(this.Controller, Events.ButtonDown, this.OnButtonDown);  //Button Pressed Event
+    
+    this.ShootTimer = 0; //so that you can <--------------
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    if (this.InAftermath)
+    {
+      this.ShootTimer -= event.Dt;
+    }
+    if (this.ShootTimer <= 0.0)
+    {
+      this.InAftermath = false;
+    }
+  }
+
+  function OnButtonDown(event : GamepadEvent) //Button Pressed List
+  {
+      if (event.Button == Buttons.A)
+      {
+        if ( (this.ShootTimer <= 0.0) && !this.Fisting)
+        {
+          this.ShootTimer = this.FistCooldownTime;
+          this.ShootFist();
+          this.Fisting = true;
+        }
+      }
+  }
+  
+  function ShootFist ()
+  {
+    var projectileObject = this.FistCogPath.Cog;
+    
+    this.Owner.Parent.PlayerInput.AimingEnabled = false; //locks arm angle
+    
+    if (projectileObject != null) //4 safety purposes
+    {
+      //setting fist properties
+      
+      var angle = this.Owner.Transform.EulerAngles.Z;
+      
+      
+      projectileObject.FistScript.MaxDist = this.Range;
+      projectileObject.FistScript.V = -this.FistSpeed;
+      projectileObject.FistScript.BumpDirection = Real3(-Math.Cos(angle), -Math.Sin(angle), 0);
+      projectileObject.FistScript.Time = 0.0; //reseting fist timer
+      
+    }
+  }
+}
+

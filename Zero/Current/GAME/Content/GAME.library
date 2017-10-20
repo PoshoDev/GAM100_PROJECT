@@ -1,0 +1,8 @@
+[Version:1]
+ContentLibrary 
+{
+	var Name = "GAME"
+	var LibraryId = 0x5957f5c08514c33e
+	var SourceControlType = ""
+	var ReadOnly = false
+}

@@ -1,0 +1,156 @@
+class PlayerInput : ZilchComponent
+{
+    var Controller : Gamepad = null; //Creates Gamepad, I guess
+    ///Which controller ///
+    [Property] var ControllerN: Integer = 0;
+    /// Character Individuals ///
+    [Property] var Speed_Hor_Avg : Real = 0.1;
+    
+    /// For All Characters ///
+    [Property] var Deadzone_Min : Real = 0.0;
+    [Property] var Deadzone_Max : Real = 0.7;
+    
+    //to access the arm object
+    [Property]
+    var ArmCogPath: CogPath;
+    [Property]
+    var AimingEnabled: Boolean = true;
+    
+    //Used for punch effect
+    var BumpVector: Real3 = Real3(0.0,0.0,0.0);
+    [Property] var BumpDampingSpeed: Real = 0.8;
+    
+    //this must be a define
+    var PI: Real= 3.14159265359;
+
+
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate); //Good ol' OnLogicUpdate
+        
+        this.Controller = Zero.Gamepads.GetGamePad(this.ControllerN);  //Assigns the FIRST Gamepad
+        Console.Write(Zero.Gamepads.GetGamePad(this.ControllerN));
+        Console.WriteLine(" connected!");
+        
+        //Zero.Connect(this.Controller, Events.ButtonDown, this.OnButtonDown);  //Button Pressed Event
+        //Zero.Connect(this.Controller, Events.ButtonUp, this.OnButtonUp);      //Button Released Event
+    }
+
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        var vibrationTime = 1; //Some vibration testing
+        this.Controller.Vibrate(vibrationTime, this.Controller.LeftTrigger, this.Controller.RightTrigger);
+        
+        
+        //Updating BumpVector
+        if ((this.BumpVector.X > 0.1 || this.BumpVector.X < -0.1) || (this.BumpVector.Y > 0.1 || this.BumpVector.Y < -0.1))
+        {
+          this.BumpVector -= this.BumpDampingSpeed*event.Dt*this.BumpVector;
+        }
+        else
+        {
+          this.BumpVector*=0;
+        }
+        //Debug
+        /*if (this.BumpVector != Real3(0.0,0.0,0.0))
+        {
+          Console.WriteLine(this.Owner.Name, "BumpVector", this.BumpVector);
+        }*/
+    
+        ///Movement///
+        var movement = Real3(0.0,0.0,0.0);
+        
+        if (this.Controller.IsActive)
+        {
+          if (this.Controller.LeftStick.X > this.Deadzone_Min || this.Controller.LeftStick.X < -this.Deadzone_Min)
+          {
+            var movement_add = this.Controller.LeftStick.X;
+            
+            if (this.Controller.LeftStick.X > this.Deadzone_Max) //Checks that the movement is not exceeded
+                movement_add = this.Deadzone_Max;
+            else if (this.Controller.LeftStick.X < -this.Deadzone_Max)
+                movement_add = -this.Deadzone_Max;
+                
+            movement.X += this.Speed_Hor_Avg * movement_add;
+            
+            //Console.Write("Movement: "); Console.WriteLine(movement.X);
+            //this.Owner.RigidBody.Velocity = Real3(movement.X,this.Owner.RigidBody.Velocity.Y,0.0);
+            //this.Owner.Transform.Translation += Real3(movement.X,0.0,0.0) + this.BumpVector;
+          }
+          this.Owner.Transform.Translation += Real3(movement.X,0.0,0.0) + this.BumpVector;
+          
+          if (this.AimingEnabled)
+          {
+            /*LeftStick input*/
+            var xCoord = this.Controller.LeftStick.X;
+            var yCoord = this.Controller.LeftStick.Y;
+
+            if (this.Controller.LeftStick.X > this.Deadzone_Min || this.Controller.LeftStick.X < -this.Deadzone_Min)
+            {
+              if (this.Controller.LeftStick.X > this.Deadzone_Max) //Checks that the movement is not exceeded
+                  xCoord = this.Deadzone_Max;
+              else if (this.Controller.LeftStick.X < -this.Deadzone_Max)
+                  xCoord = -this.Deadzone_Max;
+            }
+            if (this.Controller.LeftStick.Y > this.Deadzone_Min || this.Controller.LeftStick.Y < -this.Deadzone_Min)
+            {            
+              if (this.Controller.LeftStick.Y > this.Deadzone_Max) //Checks that the movement is not exceeded
+                  yCoord = this.Deadzone_Max;
+              else if (this.Controller.LeftStick.Y < -this.Deadzone_Max)
+                  yCoord = -this.Deadzone_Max;
+            }
+            
+            var armAngle = Math.ATan2(yCoord,xCoord);
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+            this.ArmCogPath.Cog.Transform.SetEulerAnglesXYZ(0.0, 0.0, this.PI+armAngle); //<-------------------------
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+          }
+          
+        }
+        //Update movement here!!
+        /////////
+        
+    }
+
+    /*function OnButtonDown(event : GamepadEvent) //Button Pressed List
+    {
+        if (event.Button == Buttons.A)
+        {
+            Console.WriteLine("A Pressed.");
+        }
+        if (event.Button == Buttons.B)
+        {
+            Console.WriteLine("B Pressed.");
+        }
+        if (event.Button == Buttons.X)
+        {
+            Console.WriteLine("X Pressed.");
+        }
+        if (event.Button == Buttons.Y)
+        {
+            Console.WriteLine("Y Pressed.");
+        }
+    }
+    
+    function OnButtonUp(event : GamepadEvent) //Button Release List
+    {
+        if (event.Button == Buttons.A)
+        {
+            Console.WriteLine("A Released.");
+        }
+        if (event.Button == Buttons.B)
+        {
+            Console.WriteLine("B Released.");
+        }
+        if (event.Button == Buttons.X)
+        {
+            Console.WriteLine("X Released.");
+        }
+        if (event.Button == Buttons.Y)
+        {
+            Console.WriteLine("Y Released.");
+        }
+    }*/
+    
+}

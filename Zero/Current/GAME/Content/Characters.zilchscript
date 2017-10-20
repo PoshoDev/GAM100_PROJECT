@@ -1,0 +1,53 @@
+class Characters : ZilchComponent
+{
+  
+    [Property]
+  var RandomPath : CogPath = null;
+  var Random : Cog = null;
+    [Property]
+  var MagePath : CogPath = null;
+  var Mage : Cog = null;
+    [Property]
+  var CindyPath : CogPath = null;
+  var Cindy : Cog = null;
+    [Property]
+  var ToonPath : CogPath = null;
+  var Toon : Cog = null;
+    [Property]
+  var BorkPath : CogPath = null;
+  var Bork : Cog = null;
+  
+  function Initialize(init : CogInitializer){
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    this.Random = this.RandomPath.Cog;
+    this.Mage = this.MagePath.Cog;
+    this.Cindy = this.CindyPath.Cog;
+    this.Toon = this.ToonPath.Cog;
+    this.Bork = this.BorkPath.Cog;
+    
+  }
+
+  function OnLogicUpdate(event : UpdateEvent){
+    var character1 = this.Owner.MenuLogic.PlayerOp;
+    if(this.Owner.MenuLogic.PlayerOp == 2){
+      this.Mage.Sprite.Visible = true;
+    } else 
+    this.Mage.Sprite.Visible = false;
+    if(this.Owner.MenuLogic.PlayerOp == 3){
+      this.Cindy.Sprite.Visible = true;
+    } else 
+    this.Cindy.Sprite.Visible = false;
+    if(this.Owner.MenuLogic.PlayerOp == 4){
+      this.Toon.Sprite.Visible = true;
+    } else
+    this.Toon.Sprite.Visible = false;
+    if(this.Owner.MenuLogic.PlayerOp == 5){
+      this.Bork.Sprite.Visible = true;
+    } else 
+    this.Bork.Sprite.Visible = false;
+    if(this.Owner.MenuLogic.PlayerOp == 1){
+      this.Random.Sprite.Visible = true;
+    } else 
+    this.Random.Sprite.Visible = false;
+  }
+}

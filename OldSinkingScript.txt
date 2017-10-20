@@ -1,0 +1,54 @@
+class PillarSinkingScript : ZilchComponent
+{
+  
+  [Property]
+  var SinkingHeight: Real = 1; //Distance the pillar lowers each time its bounced on
+  [Property]
+  var SinkingTime: Real = 1; //[seconds] Time it takes to sink the desired height
+  
+  var Sinking: Boolean = false; //is the pillar sinking right now?
+  var SinkingSpeed: Real = 1;   //stores the result of the division SinkingHeight/SinkingTime
+  var Timer: Real = 1;          //timer used to count sinking time
+  
+  /*stores the initial height of the pillar,
+  its used to ensure it reaches the sunken positions exactly!*/
+  var InitialHeigth: Real = 0;
+  var BounceCounter: Integer = 0; //stores how many times the pillar has been bounced on
+  
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate); //Good ol' OnLogicUpdate
+    Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+    
+    /*Initialising timer*/
+    this.Timer = this.SinkingTime;
+    /*Initialising InitialHeigth*/
+    this.InitialHeigth = this.Owner.Transform.Translation.Y;
+    /*Calculating SinkingSpeed,this remains constant after first frame*/
+    this.SinkingSpeed = this.SinkingHeight / this.SinkingTime;
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    if (this.Sinking)
+    {
+      this.Timer -= event.Dt; //updating timer
+      
+      this.Owner.Transform.Translation -= Real3( 0.0, this.SinkingSpeed * event.Dt, 0.0);
+      
+      if (this.Timer <= 0.0)
+      {
+        this.Owner.Transform.Translation = Real3(0.0, this.InitialHeigth - this.BounceCounter*this.SinkingHeight, 0.0);
+        this.Timer = this.SinkingTime; //reseting timer
+        this.Sinking = false;
+      }
+    }
+  }
+  
+  function OnCollisionStarted(event : CollisionEvent)
+  {
+    this.Sinking = true;
+    this.BounceCounter += 1;
+    Console.WriteLine("BounceCounter = ",this.BounceCounter);
+  }
+}

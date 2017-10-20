@@ -1,0 +1,13 @@
+class CameraDebug2 : ZilchComponent
+{
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+  }
+
+  function OnLogicUpdate(event : UpdateEvent)
+  {
+    var to = this.Space.FindObjectByName("GameCamera").CameraTween;
+    this.Owner.Transform.Translation = Real3(to.ToX, to.ToY, 1);
+  }
+}

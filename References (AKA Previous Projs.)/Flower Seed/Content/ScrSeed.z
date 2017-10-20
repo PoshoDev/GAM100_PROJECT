@@ -1,0 +1,49 @@
+class ScrSeed : ZilchComponent
+{
+    var Progress: Real = 0;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+        {
+        if (this.Owner.Transform.Translation.Y < -10)
+            {
+            if (this.Progress < 100)
+                {
+                this.Space.CreateAtPosition(Archetype.Find("Seed"), Real3(0,12,0));
+                }
+            this.Owner.Destroy();
+            }
+            
+        if (Zero.Keyboard.KeyIsDown(Keys.R))
+            {
+            this.Space.ReloadLevel();
+            }
+        }
+    
+    function OnCollisionStarted(event: CollisionEvent)
+        {
+        
+        if (event.OtherObject.Name == "Bullet")
+            {
+            this.Progress += 1;
+            event.OtherObject.Destroy();
+            
+            if (this.Progress == 100)
+                {
+                this.Space.CreateAtPosition(Archetype.Find("Seed"), Real3(0,12,0));
+                this.Progress += 1;
+                }
+            else if (this.Progress == 14 || this.Progress == 28 || this.Progress == 42 || this.Progress == 56 || this.Progress == 70 || this.Progress == 84)
+                {
+                this.Owner.Sprite.CurrentFrame += 1;
+                }
+            }
+        }
+        
+    
+}

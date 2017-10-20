@@ -1,0 +1,102 @@
+class MenuLogic : ZilchComponent
+{
+    var Controller : Gamepad = null;
+    var Transform : Transform;
+    
+    //this is the variable that determines which player the user chooses.
+    [Property]
+    var PlayerOp : Real;
+    var PointerAngle : Real;
+    
+    //var GamePlay: Level = Level.Find("Game");
+    
+    var Locked : Boolean = false;
+    
+    var PI: Real= 3.14159265359;
+    
+    var P1Selected : String = ("P1 : ");
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        this.Controller = Zero.Gamepads.GetGamePad(0);  //Assigns the FIRST Gamepad
+        Zero.Connect(this.Controller, Events.ButtonDown, this.OnButtonDown);
+        Console.Write(Zero.Gamepads.GetGamePad(0));
+        Console.WriteLine(" connected!");
+        
+    }
+
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+      var section : Real = 0;
+      var xCoord = this.Controller.LeftStick.X;
+      var yCoord = this.Controller.LeftStick.Y;
+      var pointerAngleRad = Real();
+      var lastAngle = Real(2.5);
+      
+      //this.PointerAngle = Math.ToDegrees(pointerAngleRad);
+      
+      
+      if(this.Locked == false){
+        
+        pointerAngleRad = Math.ATan2(yCoord,xCoord);
+        this.PointerAngle = Math.ToDegrees(pointerAngleRad);
+        
+        
+        if(this.PointerAngle != 0){
+          lastAngle = pointerAngleRad;
+          this.Owner.Transform.SetEulerAnglesXYZ(0.0, 0.0, pointerAngleRad);
+        } else {
+          pointerAngleRad = lastAngle;
+          this.Owner.Transform.SetEulerAnglesXYZ(0.0, 0.0, lastAngle);
+        } 
+        
+        //this.Owner.Transform.SetEulerAnglesXYZ(0.0, 0.0, pointerAngleRad);
+        
+        section = this.PointerAngle;
+        
+        if(section > 54 && section <126){
+          this.PlayerOp = 1;
+          this.P1Selected = ("P1 : Random");
+        }
+        if((section > 126 && section <180) || (section > -179 && section < -162)){
+          this.PlayerOp = 2;
+          this.P1Selected = ("P1 : Mage");
+        }
+        if(section > -162 && section <-90){
+          this.PlayerOp = 3;
+          this.P1Selected = ("P1 : Cindy");
+        }
+        if(section > -90 && section <-18){
+          this.PlayerOp = 4;
+          this.P1Selected = ("P1 : Toon");
+        }
+        if((section > -18 && section <0) || (section < 54 && section > 0) ){
+          this.PlayerOp = 5;
+          this.P1Selected = ("P1 : Bork");
+        }
+      }
+    }
+    function OnButtonDown(event : GamepadEvent) //Button Pressed List
+    {
+      if (event.Button == Buttons.A)
+      {
+        //Console.WriteLine("Vibraaa");
+        this.Locked = true;
+        var vibrationTime = 1; //Some vibration testing
+        this.Controller.Vibrate(vibrationTime, this.Controller.LeftTrigger, this.Controller.RightTrigger);
+      }
+      if(event.Button == Buttons.B){
+        if(this.Locked == true){
+          this.Locked = false;
+        }
+      }
+      if(event.Button == Buttons.B){
+        if(this.Locked == true){
+          Console.WriteLine("BEGIN MATCH"); // enter code for next level(game)
+        }
+      }
+    }
+}

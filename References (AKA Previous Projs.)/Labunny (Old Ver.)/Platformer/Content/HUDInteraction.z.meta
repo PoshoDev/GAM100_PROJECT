@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "HUDInteraction",
+		uint64 ResourceId = 59160a05b8d310ea,
+	},
+},

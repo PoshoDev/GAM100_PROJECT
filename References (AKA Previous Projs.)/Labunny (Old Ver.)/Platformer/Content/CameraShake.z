@@ -1,0 +1,97 @@
+class CameraShake : ZilchComponent
+{
+
+[Dependency] var Transform : Transform = null;
+
+[Property] var Time           : Real = 1.0;
+[Property] var Displacement   : Real = 0.5;
+[Property] var Frequency      : Real = 12.0;
+[Property] var StartWithShake : Boolean = false;
+[Property] var Continuous     : Boolean = false;
+
+var Rand    : Random = Random();   // Random number generator
+var Parent  : Cog = null;          // Parent object, used to indirectly shake the camera
+
+function Initialize(init : CogInitializer)
+{
+    // Attach the object to a transform.
+    // We will shake the transform instead of the actual object.
+    this.Parent = this.Space.CreateAtPosition(Archetype.Find("Transform"), Real3());
+    this.Parent.Name = "Transform";
+    var origParent = this.Owner.Parent;
+    if(origParent != null)
+    {
+        this.Parent.AttachToRelative(origParent);
+    }
+    this.Owner.AttachToRelative(this.Parent);
+    
+    // Option to have the object shake upon initialization
+    if(this.StartWithShake)
+    {
+        this.Shake();
+    }
+}
+
+// Core of this script
+// Does the actual shaking
+function Shake()
+{
+    var startPos = this.Parent.Transform.Translation;
+    var seq = Action.Sequence(this.Owner.Actions);
+    var interval = 1.0 / this.Frequency;
+    
+    for(var i = 0.0; i < this.Time; i += interval)
+    {
+        var newPos = Real3(startPos.X + this.Rand.Range(-this.Displacement, this.Displacement), 
+        startPos.Y + this.Rand.Range(-this.Displacement, this.Displacement), startPos.Z);
+        
+        Action.Property(seq, @this.Parent.Transform.Translation, newPos, interval, Ease.Linear);
+    }
+    
+    // Reset the position at the end to prevent weird camera offsets
+    Action.Property(seq, @this.Parent.Transform.Translation, startPos, interval, Ease.Linear);
+    
+    // Inifini-shake
+    if(this.Continuous)
+    {
+        Action.Call(seq, this.DupShake);
+    }
+}
+
+// Just here for continuous shaking and backwards compatibility
+function DupShake()
+{
+    var startPos = this.Parent.Transform.Translation;
+    var seq = Action.Sequence(this.Owner.Actions);
+    var interval = 1.0 / this.Frequency;
+    
+    // Queue shaking for the given time period (Use the this.Time variable)
+    for(var i = 0.0; i < this.Time; i += interval)
+    {
+        var newPos = Real3(startPos.X + this.Rand.Range(-this.Displacement, this.Displacement), 
+        startPos.Y + this.Rand.Range(-this.Displacement, this.Displacement), startPos.Z);
+        
+        Action.Property(seq, @this.Parent.Transform.Translation, newPos, interval, Ease.Linear);
+    }
+    
+    // Reset the position at the end
+    Action.Property(seq, @this.Parent.Transform.Translation, startPos, interval, Ease.Linear);
+    
+    // Inifini-shake
+    if(this.Continuous)
+    {
+        Action.Call(seq, this.DupShake);
+    }
+}
+
+// Overloaded shake function
+// Same as Shake(), but lets you specify parameters at runtime
+// Be careful, as it actually changes the script's variables
+function Shake(time : Real, displacement : Real, frequency : Real)
+{
+    this.Time = time;
+    this.Displacement = displacement;
+    this.Frequency = frequency;
+    this.Shake();
+}
+}

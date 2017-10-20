@@ -1,0 +1,27 @@
+class PressToBegin : ZilchComponent
+{
+  [Property]
+  var Player1Path : CogPath = null;
+  var Player1 : Cog = null;
+  
+  var PlayLevel : Level = Level.FindOrError("Level");
+
+  [Property]
+  var Player2Path : CogPath = null;
+  var Player2 : Cog = null;
+  
+  function Initialize(init : CogInitializer)
+  {
+    Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    this.Player1 = this.Player1Path.Cog;
+    this.Player2 = this.Player2Path.Cog;
+  }
+
+  function OnLogicUpdate(event : UpdateEvent){
+    if(this.Player1.MenuLogic.Locked == true && this.Player2.MenuLogic2.Locked == true){
+      this.Owner.SpriteText.Text = ("Press B To Begin");
+      this.Space.LoadLevel(this.PlayLevel);
+    } else 
+      this.Owner.SpriteText.Text = ("Press X To Lock");
+  }
+}
